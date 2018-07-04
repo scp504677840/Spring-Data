@@ -1,0 +1,90 @@
+总体：
+@ResponseBody
+HttpEntity<B>, ResponseEntity<B>
+HttpHeaders
+String
+View
+java.util.Map, org.springframework.ui.Model
+@ModelAttribute
+ModelAndView object
+void
+DeferredResult<V>
+Callable<V>
+ListenableFuture<V>, java.util.concurrent.CompletionStage<V>, java.util.concurrent.CompletableFuture<V>
+ResponseBodyEmitter, SseEmitter
+StreamingResponseBody
+Reactive types — Reactor, RxJava, or others via ReactiveAdapterRegistry
+Any other return value
+
+Controller method return value	Description
+@ResponseBody
+
+The return value is converted through HttpMessageConverters and written to the response. See @ResponseBody.
+
+HttpEntity<B>, ResponseEntity<B>
+
+The return value specifies the full response including HTTP headers and body be converted through HttpMessageConverters and written to the response. See ResponseEntity.
+
+HttpHeaders
+
+For returning a response with headers and no body.
+
+String
+
+A view name to be resolved with ViewResolver's and used together with the implicit model — determined through command objects and @ModelAttribute methods. The handler method may also programmatically enrich the model by declaring a Model argument (see above).
+
+View
+
+A View instance to use for rendering together with the implicit model — determined through command objects and @ModelAttribute methods. The handler method may also programmatically enrich the model by declaring a Model argument (see above).
+
+java.util.Map, org.springframework.ui.Model
+
+Attributes to be added to the implicit model with the view name implicitly determined through a RequestToViewNameTranslator.
+
+@ModelAttribute
+
+An attribute to be added to the model with the view name implicitly determined through a RequestToViewNameTranslator.
+
+Note that @ModelAttribute is optional. See "Any other return value" further below in this table.
+
+ModelAndView object
+
+The view and model attributes to use, and optionally a response status.
+
+void
+
+A method with a void return type (or null return value) is considered to have fully handled the response if it also has a ServletResponse, or an OutputStream argument, or an @ResponseStatus annotation. The same is true also if the controller has made a positive ETag or lastModified timestamp check (see Controllers for details).
+
+If none of the above is true, a void return type may also indicate "no response body" for REST controllers, or default view name selection for HTML controllers.
+
+DeferredResult<V>
+
+Produce any of the above return values asynchronously from any thread — e.g. possibly as a result of some event or callback. See Async Requests and DeferredResult.
+
+Callable<V>
+
+Produce any of the above return values asynchronously in a Spring MVC managed thread. See Async Requests and Callable.
+
+ListenableFuture<V>, java.util.concurrent.CompletionStage<V>, java.util.concurrent.CompletableFuture<V>
+
+Alternative to DeferredResult as a convenience for example when an underlying service returns one of those.
+
+ResponseBodyEmitter, SseEmitter
+
+Emit a stream of objects asynchronously to be written to the response with HttpMessageConverter's; also supported as the body of a ResponseEntity. See Async Requests and HTTP Streaming.
+
+StreamingResponseBody
+
+Write to the response OutputStream asynchronously; also supported as the body of a ResponseEntity. See Async Requests and HTTP Streaming.
+
+Reactive types — Reactor, RxJava, or others via ReactiveAdapterRegistry
+
+Alternative to DeferredResult with multi-value streams (e.g. Flux, Observable) collected to a List.
+
+For streaming scenarios — e.g. text/event-stream, application/json+stream —  SseEmitter and ResponseBodyEmitter are used instead, where ServletOutputStream blocking I/O is performed on a Spring MVC managed thread and back pressure applied against the completion of each write.
+
+See Async Requests and Reactive types.
+
+Any other return value
+
+If a return value is not matched to any of the above, by default it is treated as a view name, if it is String or void (default view name selection via RequestToViewNameTranslator applies); or as a model attribute to be added to the model, unless it is a simple type, as determined by BeanUtils#isSimpleProperty in which case it remains unresolved.

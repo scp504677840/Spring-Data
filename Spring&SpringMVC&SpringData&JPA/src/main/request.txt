@@ -1,0 +1,140 @@
+总体：
+WebRequest, NativeWebRequest
+javax.servlet.ServletRequest, javax.servlet.ServletResponse
+javax.servlet.http.HttpSession
+javax.servlet.http.PushBuilder
+java.security.Principal
+HttpMethod
+java.util.Locale
+java.util.TimeZone + java.time.ZoneId
+java.io.InputStream, java.io.Reader
+java.io.OutputStream, java.io.Writer
+@PathVariable
+@MatrixVariable
+@RequestParam
+@RequestHeader
+@CookieValue
+@RequestBody
+HttpEntity<B>
+@RequestPart
+java.util.Map, org.springframework.ui.Model, org.springframework.ui.ModelMap
+RedirectAttributes
+@ModelAttribute
+Errors, BindingResult
+SessionStatus + class-level @SessionAttributes
+UriComponentsBuilder
+@SessionAttribute
+@RequestAttribute
+
+WebRequest, NativeWebRequest
+
+Generic access to request parameters, request & session attributes, without direct use of the Servlet API.
+
+javax.servlet.ServletRequest, javax.servlet.ServletResponse
+
+Choose any specific request or response type — e.g. ServletRequest, HttpServletRequest, or Spring’s MultipartRequest, MultipartHttpServletRequest.
+
+javax.servlet.http.HttpSession
+
+Enforces the presence of a session. As a consequence, such an argument is never null.
+Note: Session access is not thread-safe. Consider setting the RequestMappingHandlerAdapter's "synchronizeOnSession" flag to "true" if multiple requests are allowed to access a session concurrently.
+
+javax.servlet.http.PushBuilder
+
+Servlet 4.0 push builder API for programmatic HTTP/2 resource pushes. Note that per Servlet spec, the injected PushBuilder instance can be null if the client does not support that HTTP/2 feature.
+
+java.security.Principal
+
+Currently authenticated user; possibly a specific Principal implementation class if known.
+
+HttpMethod
+
+The HTTP method of the request.
+
+java.util.Locale
+
+The current request locale, determined by the most specific LocaleResolver available, in effect, the configured LocaleResolver/LocaleContextResolver.
+
+java.util.TimeZone + java.time.ZoneId
+
+The time zone associated with the current request, as determined by a LocaleContextResolver.
+
+java.io.InputStream, java.io.Reader
+
+For access to the raw request body as exposed by the Servlet API.
+
+java.io.OutputStream, java.io.Writer
+
+For access to the raw response body as exposed by the Servlet API.
+
+@PathVariable
+
+For access to URI template variables. See URI patterns.
+
+@MatrixVariable
+
+For access to name-value pairs in URI path segments. See Matrix variables.
+
+@RequestParam
+
+For access to Servlet request parameters. Parameter values are converted to the declared method argument type. See @RequestParam.
+
+Note that use of @RequestParam is optional, e.g. to set its attributes. See "Any other argument" further below in this table.
+
+@RequestHeader
+
+For access to request headers. Header values are converted to the declared method argument type. See @RequestHeader.
+
+@CookieValue
+
+For access to cookies. Cookies values are converted to the declared method argument type. See @CookieValue.
+
+@RequestBody
+
+For access to the HTTP request body. Body content is converted to the declared method argument type using HttpMessageConverters. See @RequestBody.
+
+HttpEntity<B>
+
+For access to request headers and body. The body is converted with HttpMessageConverters. See HttpEntity.
+
+@RequestPart
+
+For access to a part in a "multipart/form-data" request. See Multipart.
+
+java.util.Map, org.springframework.ui.Model, org.springframework.ui.ModelMap
+
+For access to the model that is used in HTML controllers and exposed to templates as part of view rendering.
+
+RedirectAttributes
+
+Specify attributes to use in case of a redirect — i.e. to be appended to the query string, and/or flash attributes to be stored temporarily until the request after redirect. See Redirect attributes and Flash attributes.
+
+@ModelAttribute
+
+For access to an existing attribute in the model (instantiated if not present) with data binding and validation applied. See @ModelAttribute as well as Model and DataBinder.
+
+Note that use of @ModelAttribute is optional, e.g. to set its attributes. See "Any other argument" further below in this table.
+
+Errors, BindingResult
+
+For access to errors from validation and data binding for a command object (i.e. @ModelAttribute argument), or errors from the validation of an @RequestBody or @RequestPart arguments; an Errors, or BindingResult argument must be declared immediately after the validated method argument.
+
+SessionStatus + class-level @SessionAttributes
+
+For marking form processing complete which triggers cleanup of session attributes declared through a class-level @SessionAttributes annotation. See @SessionAttributes for more details.
+
+UriComponentsBuilder
+
+For preparing a URL relative to the current request’s host, port, scheme, context path, and the literal part of the servlet mapping also taking into account Forwarded and X-Forwarded-* headers. See URI Links.
+
+@SessionAttribute
+
+For access to any session attribute; in contrast to model attributes stored in the session as a result of a class-level @SessionAttributes declaration. See @SessionAttribute for more details.
+
+@RequestAttribute
+
+For access to request attributes. See @RequestAttribute for more details.
+
+Any other argument
+
+If a method argument is not matched to any of the above, by default it is resolved as an @RequestParam if it is a simple type, as determined by BeanUtils#isSimpleProperty, or as an @ModelAttribute otherwise.
